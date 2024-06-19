@@ -34,7 +34,7 @@ export default function LoginPage() {
 
         const response = await fetch("https://new-twitter-api.vercel.app/login", {
             method: "POST",
-            mode: "cors",
+            mode: "no-cors",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json"

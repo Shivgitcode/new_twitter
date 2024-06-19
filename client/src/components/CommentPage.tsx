@@ -46,7 +46,7 @@ export default function CommentPage() {
         console.log(`${Form.get("title")} ${Form.get("imgFile")}`)
         const response = await fetch(`https://new-twitter-api.vercel.app/comment/${postId}`, {
             method: "POST",
-            mode: "cors",
+            mode: "no-cors",
             credentials: "include",
             body: Form
 

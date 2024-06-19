@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Post" ALTER COLUMN "likes" DROP NOT NULL,
+ALTER COLUMN "likes" SET DEFAULT 0;

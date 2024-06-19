@@ -1,4 +1,3 @@
-import { solo } from "../assets";
 import { VscComment } from "react-icons/vsc";
 import { BiRepost } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa6";

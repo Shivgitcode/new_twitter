@@ -29,7 +29,7 @@ export default function SignupPage() {
         newForm.append("password", data.password)
 
         console.log(newForm.get("imgFile"))
-        const response = await fetch("http://localhost:4000/api/v1/signup", {
+        const response = await fetch("https://new-twitter-api.vercel.app/signup", {
             mode: "cors",
             method: "POST",
             credentials: "include",

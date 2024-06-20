@@ -44,7 +44,7 @@ export default function CommentPage() {
         Form.append("imgFile", file as string)
 
         console.log(`${Form.get("title")} ${Form.get("imgFile")}`)
-        const response = await fetch(`https://new-twitter-api.vercel.app/comment/${postId}`, {
+        const response = await fetch(`http://localhost:4000/api/v1/comment/${postId}`, {
             method: "POST",
             mode: "no-cors",
             credentials: "include",
@@ -70,7 +70,7 @@ export default function CommentPage() {
 
     useEffect(() => {
         const fetchComments = async (id: string | undefined) => {
-            const response = await fetch(`https://new-twitter-api.vercel.app/comment/${id}`, {
+            const response = await fetch(`http://localhost:4000/api/v1/comment/${id}`, {
                 method: "GET",
                 mode: "cors",
                 credentials: "include",

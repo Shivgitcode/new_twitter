@@ -13,11 +13,16 @@ import "react-toastify/dist/ReactToastify.css"
 
 
 
+
+
+
 type User = {
     email: string,
     password: string
 }
 export default function LoginPage() {
+    const port = import.meta.env.VITE_BASE_URL
+    console.log(port)
     const { setIsCookie } = useAppContext()
     const navigate = useNavigate()
     const schema: ZodType<User> = z.object({
@@ -34,7 +39,7 @@ export default function LoginPage() {
         console.log("It worked", data)
 
 
-        const response = await fetch("http://localhost:4000/api/v1/login", {
+        const response = await fetch(`${port}/api/v1/login`, {
             method: "POST",
             mode: "cors",
             credentials: "include",

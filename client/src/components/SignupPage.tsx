@@ -6,7 +6,9 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 
+
 export default function SignupPage() {
+    const port = import.meta.env.VITE_BASE_URL
     const [hidePass, setHidePass] = useState(true)
     const navigate = useNavigate()
     const signUpSchema = z.object({
@@ -29,7 +31,7 @@ export default function SignupPage() {
         newForm.append("password", data.password)
 
         console.log(newForm.get("imgFile"))
-        const response = await fetch("http://localhost:4000/api/v1/signup", {
+        const response = await fetch(`${port}/api/v1/signup`, {
             mode: "cors",
             method: "POST",
             credentials: "include",

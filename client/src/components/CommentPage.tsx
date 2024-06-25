@@ -9,7 +9,10 @@ import { months } from "../utils";
 import { useDropzone } from "react-dropzone";
 import { FaArrowLeft } from "react-icons/fa6";
 
+
 export default function CommentPage() {
+    const port = import.meta.env.VITE_BASE_URL
+
     const [file, setFile] = useState<File | undefined | string>(undefined)
     const [preview, setPreview] = useState<string | ArrayBuffer | null>("")
     const params = useParams()
@@ -44,7 +47,7 @@ export default function CommentPage() {
         Form.append("imgFile", file as string)
 
         console.log(`${Form.get("title")} ${Form.get("imgFile")}`)
-        const response = await fetch(`http://localhost:4000/api/v1/comment/${postId}`, {
+        const response = await fetch(`${port}/api/v1/comment/${postId}`, {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -70,7 +73,7 @@ export default function CommentPage() {
 
     useEffect(() => {
         const fetchComments = async (id: string | undefined) => {
-            const response = await fetch(`http://localhost:4000/api/v1/comment/${id}`, {
+            const response = await fetch(`${port}/api/v1/comment/${id}`, {
                 method: "GET",
                 mode: "cors",
                 credentials: "include",

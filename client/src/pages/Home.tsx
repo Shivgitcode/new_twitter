@@ -10,7 +10,10 @@ import { Post } from "../types";
 import { months } from "../utils";
 import { Link, useNavigate } from "react-router-dom";
 
+
+
 export default function Home() {
+    const port = import.meta.env.VITE_BASE_URL
     const [tweet, setTweet] = useState<string>("")
     const [comments, setComments] = useState<Post[] | []>([])
     const currUser = JSON.parse(localStorage.getItem("currUser") as string)
@@ -35,7 +38,7 @@ export default function Home() {
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
     useEffect(() => {
         const getData = async () => {
-            const response = await fetch("http://localhost:4000/api/v1/post", {
+            const response = await fetch(`${port}/api/v1/post`, {
                 method: "GET",
                 mode: "cors",
                 credentials: "include",
@@ -78,7 +81,7 @@ export default function Home() {
         console.log(`this is my value ${form.get("post")} ${form.get("imgFile")}`)
 
         const submitForm = async () => {
-            const response = await fetch("http://localhost:4000/api/v1/post", {
+            const response = await fetch(`${port}/api/v1/post`, {
                 method: "POST",
                 mode: "cors",
                 credentials: "include",
@@ -106,7 +109,7 @@ export default function Home() {
 
 
     const handleLogout = async () => {
-        const response = await fetch("http://localhost:4000/api/v1/logout", {
+        const response = await fetch(`${port}/api/v1/logout`, {
             method: "POST",
             mode: "cors",
             credentials: "include"

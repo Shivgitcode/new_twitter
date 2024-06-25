@@ -46,7 +46,7 @@ export default function CommentPage() {
         console.log(`${Form.get("title")} ${Form.get("imgFile")}`)
         const response = await fetch(`http://localhost:4000/api/v1/comment/${postId}`, {
             method: "POST",
-            mode: "no-cors",
+            mode: "cors",
             credentials: "include",
             body: Form
 

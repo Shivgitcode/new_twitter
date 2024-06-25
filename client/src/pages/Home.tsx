@@ -106,7 +106,7 @@ export default function Home() {
 
 
     const handleLogout = async () => {
-        const response = await fetch("http//localhost:4000/api/v1/logout", {
+        const response = await fetch("http://localhost:4000/api/v1/logout", {
             method: "POST",
             mode: "cors",
             credentials: "include"

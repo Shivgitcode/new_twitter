@@ -7,6 +7,8 @@ import { FaEyeLowVision } from "react-icons/fa6";
 import { useState } from "react";
 import Cookies from "js-cookie"
 import { useAppContext } from "../context/AppContextProvider";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
 
 
@@ -25,16 +27,16 @@ export default function LoginPage() {
     const [hidePass, setHidePass] = useState(true)
     // type FormData = z.infer<typeof schema>
 
-    const { register, handleSubmit, formState: { errors } } = useForm<User>({ resolver: zodResolver(schema) })
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<User>({ resolver: zodResolver(schema) })
 
 
     const submitHandler = async (data: User) => {
         console.log("It worked", data)
 
 
-        const response = await fetch("https://localhost:4000/api/v1/login", {
+        const response = await fetch("http://localhost:4000/api/v1/login", {
             method: "POST",
-            mode: "no-cors",
+            mode: "cors",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json"
@@ -46,6 +48,9 @@ export default function LoginPage() {
             const data = await response.json();
             setIsCookie(Cookies.get("jwt"))
             localStorage.setItem("currUser", JSON.stringify(data.data))
+            toast.success(data.message, {
+                position: "bottom-right"
+            })
             navigate("/")
 
 
@@ -54,8 +59,19 @@ export default function LoginPage() {
         }
         else {
             const data = await response.json();
+            toast.info(data.message, {
+                position: "bottom-right"
+            })
+
+
             console.log(data)
+
         }
+
+        setValue("email", "")
+        setValue("password", "")
+
+
 
 
 

@@ -14,7 +14,7 @@ cloudinaryConfig();
 app.use(cors({
     methods: ["GET", "POST", "DELETE", "PUT", "DELETE"],
     credentials: true,
-    origin: "http://localhost:5173"
+    origin: "https://new-twitter-client-six.vercel.app"
 }));
 app.use(cookieParser());
 app.use(express.json());

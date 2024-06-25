@@ -31,7 +31,6 @@ app.use("/api/v1", userRouter, postRoutes, commentRouter);
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello")
-
 })
 
 

@@ -26,7 +26,6 @@ export const createComment = async (req: Request, res: Response, next: NextFunct
                 commentimg: response.secure_url,
                 postId: postId,
                 userId: currUser.id
-
             }
         })
 

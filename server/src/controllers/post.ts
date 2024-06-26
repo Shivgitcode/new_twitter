@@ -1,6 +1,6 @@
 import { NextFunction } from "express";
 import { Request, Response } from "express";
-import { prisma } from "./user.js";
+import { prisma } from "./user";
 import jwt, { JwtPayload } from "jsonwebtoken"
 import dotenv from "dotenv"
 import fileUpload, { UploadedFile } from "express-fileupload";

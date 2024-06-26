@@ -2,16 +2,16 @@ import express, { NextFunction, Request, Response } from "express"
 import cors from "cors"
 import dotenv from "dotenv"
 import expressFileupload from "express-fileupload"
-import { router as userRouter } from "./routes/user.js"
-import { cloudinaryConfig } from "./cloudinary/config.js"
+import { router as userRouter } from "./routes/user"
+import { cloudinaryConfig } from "./cloudinary/config"
 import cookieParser from "cookie-parser"
-import { postRoutes } from "./routes/post.js"
-import { commentRouter } from "./routes/comment.js"
+import { postRoutes } from "./routes/post"
+import { commentRouter } from "./routes/comment"
 
 dotenv.config()
 
 const app = express()
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 7000
 
 cloudinaryConfig()
 

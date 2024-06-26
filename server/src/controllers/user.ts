@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client"
 import bcrypt from "bcrypt"
 import { v2 as cloudinary } from "cloudinary"
 import fileUpload, { UploadedFile } from "express-fileupload"
-import { AppError } from "../errors/index.js"
+import { AppError } from "../errors/index"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 

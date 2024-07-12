@@ -32,7 +32,7 @@ export default function LoginPage() {
         console.log("It worked", data)
 
 
-        const response = await fetch("https://new-twitter-api.vercel.app/login", {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
             method: "POST",
             mode: "no-cors",
             credentials: "include",

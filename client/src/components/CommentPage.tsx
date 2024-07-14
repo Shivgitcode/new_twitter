@@ -1,13 +1,10 @@
-import { VscComment } from "react-icons/vsc";
-import { BiRepost } from "react-icons/bi";
-import { FaRegHeart } from "react-icons/fa6";
-import { IoShareSocialOutline } from "react-icons/io5";
+
 import { Link, useParams } from "react-router-dom";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { Comment } from "../types";
-import { months } from "../utils";
 import { useDropzone } from "react-dropzone";
 import { FaArrowLeft } from "react-icons/fa6";
+import Comments from "./Comments";
 
 export default function CommentPage() {
     const [file, setFile] = useState<File | undefined | string>(undefined)
@@ -44,7 +41,7 @@ export default function CommentPage() {
         Form.append("imgFile", file as string)
 
         console.log(`${Form.get("title")} ${Form.get("imgFile")}`)
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/${postId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/comment/${postId}`, {
             method: "POST",
             mode: "no-cors",
             credentials: "include",
@@ -70,7 +67,7 @@ export default function CommentPage() {
 
     useEffect(() => {
         const fetchComments = async (id: string | undefined) => {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/comment/${id}`, {
                 method: "GET",
                 mode: "cors",
                 credentials: "include",
@@ -123,34 +120,7 @@ export default function CommentPage() {
             </form>
             <div className="flex flex-col items-start justify-between">
                 {comments ? comments.map(el => (
-                    <section key={el.id} className="flex justify-start w-full p-[20px] border-b-[1px]">
-                        <div className="w-[48px] mr-2">
-                            <img src={el.user.userimg} alt="" className="w-full rounded-full" />
-                        </div>
-                        <div className="text-white flex flex-col gap-1">
-                            <div><span className="uppercase mr-1">{el.user.username}</span><span className="text-[#71767b]">@{el.user.email.slice(0, 10)} {`${months[new Date(el.timeStamp).getUTCMonth()]} ${new Date(el.timeStamp).getUTCDate()}`}</span></div>
-                            <h3>{el.title}</h3>
-                            <div className="w-[200px]">
-                                <img src={el.commentimg} alt="" className="w-full" />
-                            </div>
-                            <div className="flex w-full items-center justify-between">
-                                <div className="flex items-center gap-2 text-[#71767b]">
-                                    <VscComment fontSize={20} fill="#71767b"></VscComment><span>0</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-[#71767b]">
-                                    <BiRepost fontSize={20} fill="#71767b"></BiRepost><span>0</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-[#71767b]">
-                                    <FaRegHeart fontSize={20} fill="#71767b"></FaRegHeart><span>0</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-[#71767b]">
-                                    <IoShareSocialOutline fontSize={20} fill="#71767b"></IoShareSocialOutline><span>0</span>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </section>
+                    <Comments el={el}></Comments>
                 )) : <div className="w-full p-[20px] border-b-[1px] text-[#71767b] flex justify-center ">No Comments</div>}
             </div>
         </div>

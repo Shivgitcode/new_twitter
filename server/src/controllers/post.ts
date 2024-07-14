@@ -29,9 +29,12 @@ export const tweet = async (req: Request, res: Response, next: NextFunction) => 
         console.log(image)
 
 
+
         const myRequest: User = req.body;
         const token = req.cookies.jwt as string
+
         const foundUser = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload
+        console.log(foundUser)
 
         const newPost = await prisma.post.create({
             data: {
@@ -67,4 +70,83 @@ export const getPost = async (req: Request, res: Response, next: NextFunction) =
         data: allPost,
         message: "all post send"
     })
+}
+
+export const likePost = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { userId, postId } = req.params;
+        const { likes: userLike } = req.body
+        const post = await prisma.post.findFirst({
+            where: {
+                id: postId
+
+            }
+        })
+        const user = await prisma.user.findFirst({
+            where: {
+                id: userId
+            }
+        })
+
+        let likes = post?.likedBy
+        const totalLikes = likes?.length
+        const postsLikedByUser = user?.likedPost
+        const isLiked = likes?.find((el) => el === userId)
+        console.log(isLiked)
+        if (!isLiked) {
+            likes?.push(userId);
+            const updatedPost = await prisma.post.update({
+                where: {
+                    id: postId
+                },
+                data: {
+                    likedBy: likes,
+                    likes: userLike
+
+
+                }
+            })
+            await prisma.user.update({
+                where: {
+                    id: userId
+                },
+                data: {
+                    likedPost: [...postsLikedByUser as string[], postId]
+                }
+            })
+            res.status(200).json({
+                message: "post updated",
+                data: updatedPost
+            })
+
+        }
+        else {
+            likes = likes?.filter(el => el !== userId)
+            const updatedPost = await prisma.post.update({
+                where: {
+                    id: postId
+                },
+                data: {
+                    likedBy: likes
+                }
+
+            })
+            await prisma.user.update({
+                where: {
+                    id: userId
+                },
+                data: {
+                    likedPost: postsLikedByUser?.filter(el => el !== postId)
+                }
+            })
+            res.status(200).json({
+                message: "post unliked",
+                data: updatedPost
+            })
+        }
+    }
+    catch (error) {
+        next(error)
+    }
+
 }

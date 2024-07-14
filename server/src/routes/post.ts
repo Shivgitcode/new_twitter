@@ -1,9 +1,10 @@
 import express from "express"
-import { getPost, tweet } from "../controllers/post";
+import { getPost, likePost, tweet } from "../controllers/post";
 
 const router = express.Router();
 
 router.post("/post", tweet)
 router.get("/post", getPost)
+router.post("/likes/:userId/:postId", likePost)
 
 export { router as postRoutes }

@@ -11,7 +11,7 @@ export type Post = {
 
     ],
     id: string,
-    likes: number,
+    likes: string[],
     postimg: string,
     timeStamp: string,
     title: string,
@@ -20,9 +20,11 @@ export type Post = {
         email: string,
         userimg: string,
         username: string
+        likedPost: string[]
 
 
     },
+    likedBy: string[]
     userId: string
 }
 

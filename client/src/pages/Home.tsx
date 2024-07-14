@@ -9,11 +9,13 @@ import { useDropzone } from 'react-dropzone'
 import { Post } from "../types";
 import { months } from "../utils";
 import { Link, useNavigate } from "react-router-dom";
+import { FaHeart } from "react-icons/fa";
 
 export default function Home() {
     const [tweet, setTweet] = useState<string>("")
     const [comments, setComments] = useState<Post[] | []>([])
     const currUser = JSON.parse(localStorage.getItem("currUser") as string)
+    console.log(currUser)
     const [File, setFile] = useState<File | undefined | string>(undefined)
     const [preview, setPreview] = useState<ArrayBuffer | string | null>("")
     const navigate = useNavigate()
@@ -181,7 +183,7 @@ export default function Home() {
                                         <BiRepost fill="white"></BiRepost><span>0</span>
                                     </div>
                                     <div className="mr-[4px] text-[#71767b] flex items-center justify-center gap-1">
-                                        <FaRegHeart fill="white"></FaRegHeart><span>{el.likes}</span>
+                                        {el.user.likedPost.includes(el.id) ? <FaHeart fill="red"></FaHeart> : <FaRegHeart fill="white"></FaRegHeart>}<span>{el.likedBy.length}</span>
                                     </div>
                                     <div className="mr-[4px] text-[#71767b] flex items-center justify-center gap-1">
                                         <IoShareSocialOutline stroke="white"></IoShareSocialOutline><span>0</span>

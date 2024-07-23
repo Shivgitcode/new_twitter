@@ -17,6 +17,7 @@ const user_1 = require("./user");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cloudinary_1 = require("cloudinary");
+const redis_1 = require("../redis");
 dotenv_1.default.config();
 const tweet = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -44,6 +45,7 @@ const tweet = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             data: newPost,
             message: "Post created successfully"
         });
+        yield redis_1.client.del("posts");
     }
     catch (error) {
         next(error);
@@ -51,12 +53,20 @@ const tweet = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.tweet = tweet;
 const getPost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const cacheValue = yield redis_1.client.get("posts");
+    if (cacheValue) {
+        return res.status(200).json({
+            data: JSON.parse(cacheValue),
+            message: "all post send"
+        });
+    }
     const allPost = yield user_1.prisma.post.findMany({
         include: {
             user: true,
             comments: true
         }
     });
+    yield redis_1.client.set("posts", JSON.stringify(allPost));
     res.status(200).json({
         data: allPost,
         message: "all post send"

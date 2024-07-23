@@ -5,6 +5,7 @@ import jwt, { JwtPayload } from "jsonwebtoken"
 import dotenv from "dotenv"
 import fileUpload, { UploadedFile } from "express-fileupload";
 import { v2 as cloudinary } from "cloudinary"
+import { client } from "../redis";
 
 dotenv.config()
 type User = {
@@ -50,6 +51,7 @@ export const tweet = async (req: Request, res: Response, next: NextFunction) => 
             data: newPost,
             message: "Post created successfully"
         })
+        await client.del("posts")
 
     } catch (error) {
         next(error)
@@ -60,12 +62,25 @@ export const tweet = async (req: Request, res: Response, next: NextFunction) => 
 }
 
 export const getPost = async (req: Request, res: Response, next: NextFunction) => {
+    const cacheValue = await client.get("posts")
+
+
+    if (cacheValue) {
+        return res.status(200).json({
+            data: JSON.parse(cacheValue),
+            message: "all post send"
+        })
+    }
     const allPost = await prisma.post.findMany({
         include: {
             user: true,
             comments: true
+
         }
+
     });
+
+    await client.set("posts", JSON.stringify(allPost))
     res.status(200).json({
         data: allPost,
         message: "all post send"

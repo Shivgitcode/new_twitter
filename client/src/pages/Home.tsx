@@ -6,7 +6,7 @@ import { IoShareSocialOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { Post } from "../types";
+import { Post, User } from "../types";
 import { months } from "../utils";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
@@ -14,7 +14,7 @@ import { FaHeart } from "react-icons/fa";
 export default function Home() {
     const [tweet, setTweet] = useState<string>("")
     const [comments, setComments] = useState<Post[] | []>([])
-    const currUser = JSON.parse(localStorage.getItem("currUser") as string)
+    const currUser: User = JSON.parse(localStorage.getItem("currUser") as string)
     console.log(currUser)
     const [File, setFile] = useState<File | undefined | string>(undefined)
     const [preview, setPreview] = useState<ArrayBuffer | string | null>("")
@@ -126,6 +126,7 @@ export default function Home() {
 
 
     }
+    console.log(currUser.userimg)
     return (
         <div className=" w-full h-full">
             <section className=" w-[30%] mx-auto border-[0.2px] border-b-0 border-[#e7e9ea9f]">

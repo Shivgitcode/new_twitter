@@ -49,3 +49,12 @@ export type Comment = {
         username: string
     }
 }
+
+export interface User {
+    id: string,
+    email: string,
+    userimg: string
+    likedPost: string[],
+    password: string,
+    username: string
+}

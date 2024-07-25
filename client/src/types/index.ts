@@ -11,7 +11,7 @@ export type Post = {
 
     ],
     id: string,
-    likes: string[],
+    likes: boolean,
     postimg: string,
     timeStamp: string,
     title: string,

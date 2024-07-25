@@ -88,7 +88,6 @@ const likePost = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
             }
         });
         let likes = post === null || post === void 0 ? void 0 : post.likedBy;
-        const totalLikes = likes === null || likes === void 0 ? void 0 : likes.length;
         const postsLikedByUser = user === null || user === void 0 ? void 0 : user.likedPost;
         const isLiked = likes === null || likes === void 0 ? void 0 : likes.find((el) => el === userId);
         console.log(isLiked);

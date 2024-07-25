@@ -14,11 +14,25 @@ import { FaHeart } from "react-icons/fa";
 export default function Home() {
     const [tweet, setTweet] = useState<string>("")
     const [comments, setComments] = useState<Post[] | []>([])
+
+    const [likes, setLikes] = useState<Post[]>(comments)
     const currUser: User = JSON.parse(localStorage.getItem("currUser") as string)
     console.log(currUser)
     const [File, setFile] = useState<File | undefined | string>(undefined)
     const [preview, setPreview] = useState<ArrayBuffer | string | null>("")
     const navigate = useNavigate()
+
+    const [isPostLiked, setIsPostLiked] = useState<boolean>(false)
+
+    // useEffect(() => {
+    //     comments.map((el) => {
+    //         if (el.likedBy.includes(currUser.id)) {
+    //             setIsPostLiked(true)
+    //         }
+    //     })
+    // }, [comments])
+
+
     const onDrop = useCallback((acceptedFiles: File[]) => {
         console.log(acceptedFiles[0])
         setFile(acceptedFiles[0])
@@ -32,6 +46,36 @@ export default function Home() {
 
 
     }, [])
+
+    const handleLike = (postid: string): boolean => {
+        let flag = false;
+        comments.map((el) => {
+            if (el.id === postid) {
+                if (el.likedBy.includes(currUser.id)) {
+                    flag = true
+                }
+            }
+        })
+        return flag;
+    }
+
+    const likeHandler = async (id: string) => {
+        // update only on the client side
+
+        const updatedPost = comments.map((el) => {
+            if (el.id === id) {
+                if (el.likedBy.includes(currUser.id)) {
+                    el.likedBy = el.likedBy.filter((el) => el !== currUser.id)
+                }
+                else {
+                    el.likedBy.push(currUser.id)
+                }
+            }
+            return el;
+        })
+
+        setComments(updatedPost)
+    }
 
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
@@ -183,8 +227,9 @@ export default function Home() {
                                     <div className="mr-[4px] text-[#71767b] flex items-center justify-center gap-1">
                                         <BiRepost fill="white"></BiRepost><span>0</span>
                                     </div>
-                                    <div className="mr-[4px] text-[#71767b] flex items-center justify-center gap-1">
-                                        {el.user.likedPost.includes(el.id) ? <FaHeart fill="red"></FaHeart> : <FaRegHeart fill="white"></FaRegHeart>}<span>{el.likedBy.length}</span>
+                                    <div className="mr-[4px] text-[#71767b] flex items-center justify-center gap-1" onClick={() => { likeHandler(el.id) }}>
+                                        {/* {el.user.likedPost.includes(el.id) ? <FaHeart fill="red"></FaHeart> : <FaRegHeart fill="white"></FaRegHeart>}<span>{el.likedBy.length}</span> */}
+                                        {handleLike(el.id) ? <FaHeart fill="red"></FaHeart> : <FaRegHeart fill="white"></FaRegHeart>}<span>{el.likedBy.length}</span>
                                     </div>
                                     <div className="mr-[4px] text-[#71767b] flex items-center justify-center gap-1">
                                         <IoShareSocialOutline stroke="white"></IoShareSocialOutline><span>0</span>

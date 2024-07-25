@@ -104,7 +104,6 @@ export const likePost = async (req: Request, res: Response, next: NextFunction) 
         })
 
         let likes = post?.likedBy
-        const totalLikes = likes?.length
         const postsLikedByUser = user?.likedPost
         const isLiked = likes?.find((el) => el === userId)
         console.log(isLiked)

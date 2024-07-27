@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post("/post", tweet)
 router.get("/post", getPost)
-router.post("/likes/:userId/:postId", likePost)
+router.post("/likes/:postId", likePost)
 
 export { router as postRoutes }

@@ -10,19 +10,20 @@ import { Post, User } from "../types";
 import { months } from "../utils";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
+import { toast } from "sonner";
 
 export default function Home() {
     const [tweet, setTweet] = useState<string>("")
     const [comments, setComments] = useState<Post[] | []>([])
 
-    const [likes, setLikes] = useState<Post[]>(comments)
+    const [likes, setLikes] = useState()
     const currUser: User = JSON.parse(localStorage.getItem("currUser") as string)
     console.log(currUser)
     const [File, setFile] = useState<File | undefined | string>(undefined)
     const [preview, setPreview] = useState<ArrayBuffer | string | null>("")
     const navigate = useNavigate()
+    let flag: boolean;
 
-    const [isPostLiked, setIsPostLiked] = useState<boolean>(false)
 
     // useEffect(() => {
     //     comments.map((el) => {
@@ -48,7 +49,7 @@ export default function Home() {
     }, [])
 
     const handleLike = (postid: string): boolean => {
-        let flag = false;
+        flag = false;
         comments.map((el) => {
             if (el.id === postid) {
                 if (el.likedBy.includes(currUser.id)) {
@@ -61,7 +62,6 @@ export default function Home() {
 
     const likeHandler = async (id: string) => {
         // update only on the client side
-
         const updatedPost = comments.map((el) => {
             if (el.id === id) {
                 if (el.likedBy.includes(currUser.id)) {
@@ -75,6 +75,28 @@ export default function Home() {
         })
 
         setComments(updatedPost)
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/likes/${id}`, {
+            mode: "cors",
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "user"
+            },
+            body: JSON.stringify({ like: flag })
+
+        })
+        if (response.ok) {
+            const res = await response.json()
+            console.log(res.data)
+            setLikes(res.data)
+
+        }
+        else {
+            const res = await response.json();
+            console.log(res.data)
+        }
+
+
     }
 
 
@@ -105,7 +127,7 @@ export default function Home() {
         }
         getData()
 
-    }, [tweet])
+    }, [tweet, likes])
 
 
 
@@ -161,10 +183,14 @@ export default function Home() {
             const data = await response.json();
             console.log(data)
             navigate("/login")
+            toast.success(data.message)
 
         }
         else {
             const data = await response.json();
+            toast.error("oops some error occured", {
+                description: data.message
+            })
             console.log(data)
         }
 

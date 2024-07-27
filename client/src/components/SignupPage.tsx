@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { toast } from "sonner";
 
 
 export default function SignupPage() {
@@ -39,10 +40,12 @@ export default function SignupPage() {
             const data = await response.json();
             console.log(data);
             navigate("/login")
+            toast.success(data.message)
 
         }
         else {
             const data = await response.json();
+            toast.error(data.message)
             console.log(data)
         }
     }

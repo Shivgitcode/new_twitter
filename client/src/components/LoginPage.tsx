@@ -7,6 +7,7 @@ import { FaEyeLowVision } from "react-icons/fa6";
 import { useState } from "react";
 import Cookies from "js-cookie"
 import { useAppContext } from "../context/AppContextProvider";
+import { toast } from "sonner";
 
 
 
@@ -48,6 +49,7 @@ export default function LoginPage() {
             setIsCookie(Cookies.get("jwt"))
             localStorage.setItem("currUser", JSON.stringify(data.data))
             navigate("/")
+            toast.success(data.message)
 
 
 
@@ -55,6 +57,7 @@ export default function LoginPage() {
         }
         else {
             const data = await response.json();
+            toast.error(data.message)
             console.log(data)
         }
 

@@ -10,4 +10,4 @@ const router = express_1.default.Router();
 exports.postRoutes = router;
 router.post("/post", post_js_1.tweet);
 router.get("/post", post_js_1.getPost);
-router.post("/likes/:userId/:postId", post_js_1.likePost);
+router.post("/likes/:postId", post_js_1.likePost);

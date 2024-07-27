@@ -89,75 +89,63 @@ export const getPost = async (req: Request, res: Response, next: NextFunction) =
 
 export const likePost = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { userId, postId } = req.params;
-        const { likes: userLike } = req.body
-        const post = await prisma.post.findFirst({
+        const { postId } = req.params;
+        const { like } = req.body
+        const token = req.cookies.jwt
+        const verifyToken = await jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload
+        const findPost = await prisma.post.findFirst({
             where: {
                 id: postId
-
             }
         })
-        const user = await prisma.user.findFirst({
-            where: {
-                id: userId
-            }
-        })
-
-        let likes = post?.likedBy
-        const postsLikedByUser = user?.likedPost
-        const isLiked = likes?.find((el) => el === userId)
-        console.log(isLiked)
-        if (!isLiked) {
-            likes?.push(userId);
-            const updatedPost = await prisma.post.update({
+        let updatedPost
+        const islikedBy = findPost?.likedBy as string[]
+        console.log(islikedBy)
+        const isliked = islikedBy?.includes(verifyToken?.id)
+        if (!isliked) {
+            islikedBy?.push(verifyToken?.id)
+            updatedPost = await prisma.post.update({
                 where: {
                     id: postId
                 },
                 data: {
-                    likedBy: likes,
-                    likes: userLike
-
+                    likes: like,
+                    likedBy: [...islikedBy]
 
                 }
-            })
-            await prisma.user.update({
-                where: {
-                    id: userId
-                },
-                data: {
-                    likedPost: [...postsLikedByUser as string[], postId]
-                }
-            })
-            res.status(200).json({
-                message: "post updated",
-                data: updatedPost
             })
 
         }
         else {
-            likes = likes?.filter(el => el !== userId)
-            const updatedPost = await prisma.post.update({
+            const arr1 = islikedBy.filter(el => el !== verifyToken.id)
+            updatedPost = await prisma.post.update({
                 where: {
                     id: postId
                 },
                 data: {
-                    likedBy: likes
+                    likes: like,
+                    likedBy: [...arr1]
                 }
-
-            })
-            await prisma.user.update({
-                where: {
-                    id: userId
-                },
-                data: {
-                    likedPost: postsLikedByUser?.filter(el => el !== postId)
-                }
-            })
-            res.status(200).json({
-                message: "post unliked",
-                data: updatedPost
             })
         }
+
+        const allPosts = await prisma.post.findMany({
+            include: {
+                user: true,
+                comments: true
+            }
+        })
+
+        await client.set("posts", JSON.stringify(allPosts))
+
+
+        res.status(200).json({
+            message: "done",
+            data: updatedPost
+        })
+
+
+
     }
     catch (error) {
         next(error)

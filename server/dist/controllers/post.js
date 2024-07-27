@@ -75,69 +75,54 @@ const getPost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
 exports.getPost = getPost;
 const likePost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userId, postId } = req.params;
-        const { likes: userLike } = req.body;
-        const post = yield user_1.prisma.post.findFirst({
+        const { postId } = req.params;
+        const { like } = req.body;
+        const token = req.cookies.jwt;
+        const verifyToken = yield jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+        const findPost = yield user_1.prisma.post.findFirst({
             where: {
                 id: postId
             }
         });
-        const user = yield user_1.prisma.user.findFirst({
-            where: {
-                id: userId
-            }
-        });
-        let likes = post === null || post === void 0 ? void 0 : post.likedBy;
-        const postsLikedByUser = user === null || user === void 0 ? void 0 : user.likedPost;
-        const isLiked = likes === null || likes === void 0 ? void 0 : likes.find((el) => el === userId);
-        console.log(isLiked);
-        if (!isLiked) {
-            likes === null || likes === void 0 ? void 0 : likes.push(userId);
-            const updatedPost = yield user_1.prisma.post.update({
+        let updatedPost;
+        const islikedBy = findPost === null || findPost === void 0 ? void 0 : findPost.likedBy;
+        console.log(islikedBy);
+        const isliked = islikedBy === null || islikedBy === void 0 ? void 0 : islikedBy.includes(verifyToken === null || verifyToken === void 0 ? void 0 : verifyToken.id);
+        if (!isliked) {
+            islikedBy === null || islikedBy === void 0 ? void 0 : islikedBy.push(verifyToken === null || verifyToken === void 0 ? void 0 : verifyToken.id);
+            updatedPost = yield user_1.prisma.post.update({
                 where: {
                     id: postId
                 },
                 data: {
-                    likedBy: likes,
-                    likes: userLike
+                    likes: like,
+                    likedBy: [...islikedBy]
                 }
-            });
-            yield user_1.prisma.user.update({
-                where: {
-                    id: userId
-                },
-                data: {
-                    likedPost: [...postsLikedByUser, postId]
-                }
-            });
-            res.status(200).json({
-                message: "post updated",
-                data: updatedPost
             });
         }
         else {
-            likes = likes === null || likes === void 0 ? void 0 : likes.filter(el => el !== userId);
-            const updatedPost = yield user_1.prisma.post.update({
+            const arr1 = islikedBy.filter(el => el !== verifyToken.id);
+            updatedPost = yield user_1.prisma.post.update({
                 where: {
                     id: postId
                 },
                 data: {
-                    likedBy: likes
+                    likes: like,
+                    likedBy: [...arr1]
                 }
-            });
-            yield user_1.prisma.user.update({
-                where: {
-                    id: userId
-                },
-                data: {
-                    likedPost: postsLikedByUser === null || postsLikedByUser === void 0 ? void 0 : postsLikedByUser.filter(el => el !== postId)
-                }
-            });
-            res.status(200).json({
-                message: "post unliked",
-                data: updatedPost
             });
         }
+        const allPosts = yield user_1.prisma.post.findMany({
+            include: {
+                user: true,
+                comments: true
+            }
+        });
+        yield redis_1.client.set("posts", JSON.stringify(allPosts));
+        res.status(200).json({
+            message: "done",
+            data: updatedPost
+        });
     }
     catch (error) {
         next(error);

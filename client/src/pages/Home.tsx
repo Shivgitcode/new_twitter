@@ -76,7 +76,7 @@ export default function Home() {
 
         setComments(updatedPost)
         const response = await fetch(`${import.meta.env.VITE_API_URL}/likes/${id}`, {
-            mode: "cors",
+            mode: "no-cors",
             method: "POST",
             credentials: "include",
             headers: {
@@ -105,7 +105,7 @@ export default function Home() {
         const getData = async () => {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/post`, {
                 method: "GET",
-                mode: "cors",
+                mode: "no-cors",
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
@@ -148,7 +148,7 @@ export default function Home() {
         const submitForm = async () => {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/post`, {
                 method: "POST",
-                mode: "cors",
+                mode: "no-cors",
                 credentials: "include",
                 body: form
 
@@ -176,7 +176,7 @@ export default function Home() {
     const handleLogout = async () => {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
             method: "POST",
-            mode: "cors",
+            mode: "no-cors",
             credentials: "include"
         })
         if (response.ok) {

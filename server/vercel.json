@@ -2,17 +2,14 @@
     "version": 2,
     "builds": [
         {
-            "src": "package.json",
-            "use": "@vercel/node",
-            "config": {
-                "buildCommand": "pnpm run vercel-build"
-            }
+            "src": "src/routes",
+            "use": "@vercel/node"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "dist/index.js"
+            "dest": "src/routes/index.ts"
         }
     ]
 }

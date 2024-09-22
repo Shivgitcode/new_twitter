@@ -11,7 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.client = void 0;
 const redis_1 = require("redis");
-const client = (0, redis_1.createClient)();
+const client = (0, redis_1.createClient)({
+    url: process.env.REDIS_URL
+});
 exports.client = client;
 client.on("error", (err) => {
     console.log(`Cannot connect ${err}`);

@@ -7,7 +7,7 @@ import Comment from "./pages/Comment"
 import Protected from "./protected/Protected"
 function App() {
   return (
-    <div className=" font-roboto w-full bg-black min-h-screen">
+    <div className=" font-roboto w-full bg-black min-h-full m-0 p-0">
       <Routes>
         <Route path="/" element={<Protected Component={Home}></Protected>}></Route>
         <Route path="/login" element={<Login></Login>}></Route>

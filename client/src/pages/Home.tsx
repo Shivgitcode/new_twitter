@@ -273,8 +273,8 @@ export default function Home() {
 
 
             </section>
-            <div className="w-full flex justify-center">
-                <button className="py-[10px] px-[20px] rounded-full bg-white  my-3" onClick={handleLogout}>logout</button>
+            <div className="w-full flex justify-center py-5">
+                <button className="py-[10px] px-[20px] rounded-full bg-white " onClick={handleLogout}>logout</button>
             </div>
 
         </div>

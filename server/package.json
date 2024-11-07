@@ -7,9 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsc -b && nodemon dist/index.js",
     "start": "node dist/index.js",
-    "postinstall": "prisma generate",
-    "vercel-build": "prisma generate && tsc",
-    "build": "pnpm tsc -p tsconfig.json"
+    "postinstall": "pnpm prisma generate",
+    "vercel-build": "pnpm prisma generate && pnpm tsc",
+    "build": "pnpm tsc -b"
   },
   "keywords": [],
   "author": "",

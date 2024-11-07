@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "postinstall": "prisma generate",
     "vercel-build": "prisma generate && tsc",
-    "build": "tsc -p tsconfig.json"
+    "build": "pnpm tsc -p tsconfig.json"
   },
   "keywords": [],
   "author": "",

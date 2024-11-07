@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "buildCommand": "pnpm run build",
+    "buildCommand": "pnpm run vercel-build",
     "devCommand": "pnpm run dev",
     "installCommand": "pnpm install",
     "builds": [
@@ -8,7 +8,10 @@
             "src": "src/index.ts",
             "use": "@vercel/node",
             "config": {
-                "distDir": "dist"
+                "distDir": "dist",
+                "includeFiles": [
+                    "node_modules/.bin/tsc"
+                ]
             }
         }
     ],

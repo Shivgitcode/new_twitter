@@ -3,7 +3,7 @@ import { VscComment } from "react-icons/vsc";
 import { BiRepost } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa6";
 import { IoShareSocialOutline } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Post, User } from "../types";
@@ -11,6 +11,7 @@ import { months } from "../utils";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import { toast } from "sonner";
+import { useAppContext } from "../context/AppContextProvider";
 
 export default function Home() {
     const [tweet, setTweet] = useState<string>("")
@@ -22,6 +23,7 @@ export default function Home() {
     const [File, setFile] = useState<File | undefined | string>(undefined)
     const [preview, setPreview] = useState<ArrayBuffer | string | null>("")
     const navigate = useNavigate()
+    const { isCookie } = useAppContext()
     let flag: boolean;
 
 
@@ -129,6 +131,13 @@ export default function Home() {
 
     }, [tweet, likes])
 
+    useLayoutEffect(() => {
+
+        if (!isCookie) {
+            navigate("/login")
+        }
+    })
+
 
 
     const tweetHandler = (e: React.FormEvent) => {
@@ -196,7 +205,7 @@ export default function Home() {
 
 
     }
-    console.log(currUser.userimg)
+
     return (
         <div className=" w-full h-full">
             <section className=" w-[30%] mx-auto border-[0.2px] border-b-0 border-[#e7e9ea9f]">

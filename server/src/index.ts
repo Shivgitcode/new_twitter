@@ -18,7 +18,7 @@ cloudinaryConfig()
 app.use(cors({
     methods: ["GET", "POST", "DELETE", "PUT", "DELETE"],
     credentials: true,
-    origin: "https://new-twitter-1.onrender.com"
+    origin: "http://localhost:5173"
 
 }))
 app.use(cookieParser())

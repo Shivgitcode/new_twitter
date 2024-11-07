@@ -76,7 +76,9 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     const isLog = await bcrypt.compare(password, hash as string);
     if (isLog) {
         const token = jwt.sign({ ...foundUser }, process.env.JWT_SECRET as string);
-        res.cookie("jwt", token);
+        res.cookie("jwt", token, {
+            maxAge: 2 * 60 * 60 * 1000
+        });
         const verifyToken = jwt.verify(token, process.env.JWT_SECRET as string)
         res.status(200).json({
             message: "logged in successfully",

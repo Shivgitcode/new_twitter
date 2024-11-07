@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "postinstall": "pnpm prisma generate",
     "vercel-build": "pnpm prisma generate && pnpm tsc",
-    "build": "pnpm tsc -b"
+    "build": "pnpm  -b"
   },
   "keywords": [],
   "author": "",

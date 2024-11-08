@@ -72,6 +72,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
 
     const hash = foundUser?.password
+    console.log(hash);
 
     const isLog = await bcrypt.compare(password, hash as string);
     if (isLog) {

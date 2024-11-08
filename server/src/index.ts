@@ -18,13 +18,13 @@ cloudinaryConfig()
 app.use(cors({
     methods: ["GET", "POST", "DELETE", "PUT", "DELETE"],
     credentials: true,
-    origin: "https://new-twitter-client-4qf9lid36-shivansh-aggarwals-projects.vercel.app"
+    origin: "https://new-twitter-client-6lf4ghj1i-shivansh-aggarwals-projects.vercel.app"
 
 }))
 app.use(cookieParser())
 app.use(express.json())
 app.use(expressFileupload({
-    tempFileDir: "/temp/",
+    tempFileDir: "/tmp/",
     useTempFiles: true
 }))
 app.use("/api/v1", userRouter, postRoutes, commentRouter);

@@ -18,7 +18,7 @@ cloudinaryConfig()
 app.use(cors({
     methods: ["GET", "POST", "DELETE", "PUT", "DELETE"],
     credentials: true,
-    origin: "https://new-twitter-client-6lf4ghj1i-shivansh-aggarwals-projects.vercel.app"
+    origin: "https://new-twitter-client-tau.vercel.app"
 
 }))
 app.use(cookieParser())

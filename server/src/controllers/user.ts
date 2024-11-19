@@ -81,7 +81,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         res.cookie("jwt", token, {
             maxAge: 2 * 60 * 60 * 1000,
             httpOnly: true,
-            sameSite: "lax",
+            sameSite: "strict",
             secure: true
         });
         const verifyToken = jwt.verify(token, process.env.JWT_SECRET as string)
@@ -107,7 +107,7 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
         res.cookie("jwt", "", {
             maxAge: 1,
             httpOnly: true,
-            sameSite: "lax",
+            sameSite: "strict",
             secure: true
 
         })

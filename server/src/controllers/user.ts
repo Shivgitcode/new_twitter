@@ -79,7 +79,9 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     if (isLog) {
         const token = jwt.sign({ ...foundUser }, process.env.JWT_SECRET as string);
         res.cookie("jwt", token, {
-            maxAge: 2 * 60 * 60 * 1000
+            maxAge: 2 * 60 * 60 * 1000,
+            httpOnly: true,
+            sameSite: "none"
         });
         const verifyToken = jwt.verify(token, process.env.JWT_SECRET as string)
         res.status(200).json({
@@ -102,7 +104,9 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 export const logout = async (req: Request, res: Response, next: NextFunction) => {
     try {
         res.cookie("jwt", "", {
-            maxAge: 1
+            maxAge: 1,
+            httpOnly: true,
+            sameSite: "none"
 
         })
         res.status(200).json({

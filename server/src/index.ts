@@ -16,14 +16,13 @@ const port = process.env.PORT || 7000
 cloudinaryConfig()
 
 app.use(express.json())
-// app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 app.use(cors({
     methods: ["GET", "POST", "DELETE", "PUT", "DELETE"],
     credentials: true,
     origin: "https://new-twitter-client-tau.vercel.app"
 
 }))
-app.use(cookieParser())
 app.use(expressFileupload({
     tempFileDir: "/tmp/",
     useTempFiles: true

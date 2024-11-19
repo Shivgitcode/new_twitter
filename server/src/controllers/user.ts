@@ -59,17 +59,18 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
+    console.log(req.body)
     console.log(email, password)
     const foundUser = await prisma.user.findFirst({
         where: {
             email: email
-
         }
     })
     if (!foundUser) {
         return next(new AppError("user not found", 404))
     }
 
+    console.log(foundUser)
 
     const hash = foundUser?.password
     console.log(hash);

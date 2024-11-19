@@ -31,12 +31,12 @@ export default function LoginPage() {
 
     const submitHandler = async (data: User) => {
         console.log("It worked", data)
+        console.log(import.meta.env.VITE_API_URL)
 
 
 
         const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
             method: "POST",
-            mode: "no-cors",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json"

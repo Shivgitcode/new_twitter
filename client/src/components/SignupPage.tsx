@@ -31,7 +31,6 @@ export default function SignupPage() {
 
         console.log(newForm.get("imgFile"))
         const response = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
-            mode: "no-cors",
             method: "POST",
             credentials: "include",
             body: newForm

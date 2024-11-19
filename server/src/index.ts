@@ -20,7 +20,7 @@ app.use(express.json())
 app.use(cors({
     methods: ["GET", "POST", "DELETE", "PUT", "DELETE"],
     credentials: true,
-    origin: "*"
+    origin: "https://new-twitter-client-tau.vercel.app"
 
 }))
 app.use(cookieParser())

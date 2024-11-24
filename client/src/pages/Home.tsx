@@ -3,7 +3,7 @@ import { VscComment } from "react-icons/vsc";
 import { BiRepost } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa6";
 import { IoShareSocialOutline } from "react-icons/io5";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Post, User } from "../types";
@@ -11,7 +11,6 @@ import { months } from "../utils";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import { toast } from "sonner";
-import { useAppContext } from "../context/AppContextProvider";
 
 export default function Home() {
     const [tweet, setTweet] = useState<string>("")

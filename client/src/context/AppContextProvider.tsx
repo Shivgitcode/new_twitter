@@ -11,8 +11,7 @@ type User = {
 interface ValueProp {
     currUser: User | undefined,
     setCurrUser: React.Dispatch<React.SetStateAction<User | undefined>>
-    user:User | undefined
-    setUser:React.Dispatch<React.SetStateAction<User|undefined>>
+
 
 }
 
@@ -21,7 +20,6 @@ export const AppContext = createContext<ValueProp | undefined>(undefined)
 
 export default function AppContextProvider({ children }: { children: React.ReactNode }) {
     const [currUser, setCurrUser] = useState<User|undefined>(undefined)
-    const [user,setUser]=useState<User|undefined>(undefined)
 
     const fetchUser=async()=>{
         const response=await fetch(`${import.meta.env.VITE_API_URL}/check`,{
@@ -46,8 +44,7 @@ export default function AppContextProvider({ children }: { children: React.React
     },[])
 
     const value = {
-        user,
-        setUser,
+
         currUser,
         setCurrUser
     }

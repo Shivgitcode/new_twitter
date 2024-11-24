@@ -23,7 +23,7 @@ export default function LoginPage() {
         password: z.string().min(4).max(20)
     })
     const [hidePass, setHidePass] = useState(true)
-    const {user,setUser}=useAppContext()
+    const {currUser,setCurrUser}=useAppContext()
     // type FormData = z.infer<typeof schema>
 
     const { register, handleSubmit, formState: { errors } } = useForm<User>({ resolver: zodResolver(schema) })
@@ -46,7 +46,7 @@ export default function LoginPage() {
         })
         if (response.ok) {
             const data = await response.json();
-            setUser(data.data)
+            setCurrUser(data.data)
             localStorage.setItem("currUser", JSON.stringify(data.data))
             toast.success(data.message)
 
@@ -64,11 +64,11 @@ export default function LoginPage() {
 
     }
     useEffect(()=>{
-        if(user){
+        if(currUser){
             navigate("/")
 
         }
-    },[navigate,user])
+    },[navigate,currUser])
 
 
 

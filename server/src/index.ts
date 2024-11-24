@@ -20,7 +20,7 @@ app.use(cookieParser())
 app.use(cors({
     methods: ["GET", "POST", "DELETE", "PUT", "DELETE"],
     credentials: true,
-    origin: "http://localhost:5173"
+    origin: "https://new-twitter-client-tau.vercel.app"
 
 }))
 app.use(expressFileupload({

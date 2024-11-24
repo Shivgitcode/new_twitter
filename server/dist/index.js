@@ -16,15 +16,15 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 7000;
 (0, config_1.cloudinaryConfig)();
+app.use(express_1.default.json());
+app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
     methods: ["GET", "POST", "DELETE", "PUT", "DELETE"],
     credentials: true,
     origin: "http://localhost:5173"
 }));
-app.use((0, cookie_parser_1.default)());
-app.use(express_1.default.json());
 app.use((0, express_fileupload_1.default)({
-    tempFileDir: "/temp/",
+    tempFileDir: "/tmp/",
     useTempFiles: true
 }));
 app.use("/api/v1", user_1.router, post_1.postRoutes, comment_1.commentRouter);

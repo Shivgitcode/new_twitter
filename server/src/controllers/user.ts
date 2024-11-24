@@ -137,4 +137,30 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
     }
 
 }
+export const checkUser=async(req:Request,res:Response,next:NextFunction)=>{
+    try {
+        const userId=req.user?.id
+        console.log(userId)
+        const findUser=await prisma.user.findFirst({
+            where:{
+                id:userId
+            }
+        })
+        if(!findUser){
+            return res.status(404).json({
+                message:"user not found"
+            })
+        }
+        res.status(200).json({
+            message:"user found",
+            data:findUser
+        })
+
+        
+        
+    } catch (error) {
+        next(error)
+        
+    }
+}
 

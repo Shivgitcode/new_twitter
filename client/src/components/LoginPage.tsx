@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FaEye } from "react-icons/fa6";
 import { FaEyeLowVision } from "react-icons/fa6";
-import { useState } from "react";
-import Cookies from "js-cookie"
-import { useAppContext } from "../context/AppContextProvider";
+import { useEffect, useState } from "react";
+
 import { toast } from "sonner";
+import { useAppContext } from "../context/AppContextProvider";
 
 
 
@@ -17,13 +17,13 @@ type User = {
     password: string
 }
 export default function LoginPage() {
-    const { setIsCookie } = useAppContext()
     const navigate = useNavigate()
     const schema: ZodType<User> = z.object({
         email: z.string().email().endsWith("gmail.com"),
         password: z.string().min(4).max(20)
     })
     const [hidePass, setHidePass] = useState(true)
+    const {user,setUser}=useAppContext()
     // type FormData = z.infer<typeof schema>
 
     const { register, handleSubmit, formState: { errors } } = useForm<User>({ resolver: zodResolver(schema) })
@@ -46,9 +46,8 @@ export default function LoginPage() {
         })
         if (response.ok) {
             const data = await response.json();
-            setIsCookie(Cookies.get("jwt"))
+            setUser(data.data)
             localStorage.setItem("currUser", JSON.stringify(data.data))
-            navigate("/")
             toast.success(data.message)
 
 
@@ -64,6 +63,12 @@ export default function LoginPage() {
 
 
     }
+    useEffect(()=>{
+        if(user){
+            navigate("/")
+
+        }
+    },[navigate,user])
 
 
 

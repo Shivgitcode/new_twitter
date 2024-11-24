@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUser = exports.logout = exports.login = exports.signup = exports.prisma = void 0;
+exports.checkUser = exports.getUser = exports.logout = exports.login = exports.signup = exports.prisma = void 0;
 const client_1 = require("@prisma/client");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const cloudinary_1 = require("cloudinary");
@@ -59,6 +59,7 @@ const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
 exports.signup = signup;
 const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
+    console.log(req.body);
     console.log(email, password);
     const foundUser = yield exports.prisma.user.findFirst({
         where: {
@@ -68,12 +69,17 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     if (!foundUser) {
         return next(new index_1.AppError("user not found", 404));
     }
+    console.log(foundUser);
     const hash = foundUser === null || foundUser === void 0 ? void 0 : foundUser.password;
+    console.log(hash);
     const isLog = yield bcrypt_1.default.compare(password, hash);
     if (isLog) {
         const token = jsonwebtoken_1.default.sign(Object.assign({}, foundUser), process.env.JWT_SECRET);
         res.cookie("jwt", token, {
-            maxAge: 2 * 60 * 60 * 1000
+            maxAge: 2 * 60 * 60 * 1000,
+            httpOnly: true,
+            sameSite: "none",
+            secure: true
         });
         const verifyToken = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
         res.status(200).json({
@@ -91,7 +97,10 @@ exports.login = login;
 const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         res.cookie("jwt", "", {
-            maxAge: 1
+            maxAge: 1,
+            httpOnly: true,
+            sameSite: "none",
+            secure: true
         });
         res.status(200).json({
             message: "successfully logged out"
@@ -115,3 +124,28 @@ const getUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getUser = getUser;
+const checkUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        console.log(userId);
+        const findUser = yield exports.prisma.user.findFirst({
+            where: {
+                id: userId
+            }
+        });
+        if (!findUser) {
+            return res.status(404).json({
+                message: "user not found"
+            });
+        }
+        res.status(200).json({
+            message: "user found",
+            data: findUser
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.checkUser = checkUser;

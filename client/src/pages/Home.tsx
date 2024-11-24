@@ -23,7 +23,6 @@ export default function Home() {
     const [File, setFile] = useState<File | undefined | string>(undefined)
     const [preview, setPreview] = useState<ArrayBuffer | string | null>("")
     const navigate = useNavigate()
-    const { isCookie } = useAppContext()
     let flag: boolean;
 
 
@@ -78,7 +77,6 @@ export default function Home() {
 
         setComments(updatedPost)
         const response = await fetch(`${import.meta.env.VITE_API_URL}/likes/${id}`, {
-            mode: "no-cors",
             method: "POST",
             credentials: "include",
             headers: {
@@ -107,7 +105,6 @@ export default function Home() {
         const getData = async () => {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/post`, {
                 method: "GET",
-                mode: "no-cors",
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
@@ -129,14 +126,9 @@ export default function Home() {
         }
         getData()
 
-    }, [tweet, likes])
+    }, [tweet,likes])
 
-    useLayoutEffect(() => {
-
-        if (!isCookie) {
-            navigate("/login")
-        }
-    })
+    
 
 
 

@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import Cookies from "js-cookie";
 
 type User = {
     id: string,

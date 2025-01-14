@@ -70,9 +70,6 @@ export default function LoginPage() {
         }
     },[navigate,currUser])
 
-
-
-
     return (
         <div>
             <div className="max-w-lg w-[350px]">

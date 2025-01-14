@@ -41,11 +41,11 @@ const tweet = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
                 postimg: response.secure_url,
             }
         });
+        yield redis_1.client.del("posts");
         res.status(200).json({
             data: newPost,
             message: "Post created successfully"
         });
-        yield redis_1.client.del("posts");
     }
     catch (error) {
         next(error);

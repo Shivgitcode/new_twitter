@@ -22,8 +22,6 @@ export default function CommentPage() {
             setPreview(File.result)
         }
         File.readAsDataURL(acceptedFiles[0])
-
-
     }, [])
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
@@ -57,12 +55,6 @@ export default function CommentPage() {
             console.log(data)
         }
     }
-
-
-
-
-
-
 
 
     useEffect(() => {

@@ -15,10 +15,8 @@ import { toast } from "sonner";
 export default function Home() {
     const [tweet, setTweet] = useState<string>("")
     const [comments, setComments] = useState<Post[] | []>([])
-
     const [likes, setLikes] = useState()
     const currUser: User = JSON.parse(localStorage.getItem("currUser") as string)
-    console.log(currUser)
     const [File, setFile] = useState<File | undefined | string>(undefined)
     const [preview, setPreview] = useState<ArrayBuffer | string | null>("")
     const navigate = useNavigate()
@@ -43,9 +41,6 @@ export default function Home() {
 
         }
         file.readAsDataURL(acceptedFiles[0])
-
-
-
     }, [])
 
     const handleLike = (postid: string): boolean => {
@@ -94,8 +89,6 @@ export default function Home() {
             const res = await response.json();
             console.log(res.data)
         }
-
-
     }
 
 
@@ -123,6 +116,7 @@ export default function Home() {
                 console.log(data)
             }
         }
+        console.log("hello everyone")
         getData()
 
     }, [tweet,likes])
@@ -148,7 +142,6 @@ export default function Home() {
         const submitForm = async () => {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/post`, {
                 method: "POST",
-                mode: "no-cors",
                 credentials: "include",
                 body: form
 
@@ -176,7 +169,6 @@ export default function Home() {
     const handleLogout = async () => {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
             method: "POST",
-            mode: "no-cors",
             credentials: "include"
         })
         if (response.ok) {

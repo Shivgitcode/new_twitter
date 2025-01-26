@@ -87,6 +87,7 @@ export const login = async (
       httpOnly: true,
       sameSite: "none",
       secure: true,
+      domain: "new-twitter-api.vercel.app",
     });
     const verifyToken = jwt.verify(token, process.env.JWT_SECRET as string);
     res.status(200).json({

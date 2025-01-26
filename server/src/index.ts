@@ -32,7 +32,7 @@ app.use(
   cors({
     methods: ["GET", "POST", "DELETE", "PUT", "DELETE"],
     credentials: true,
-    origin: ["https://tweetx.shivn.tech"],
+    origin: "https://tweetx.shivn.tech",
     allowedHeaders: [
       "Content-Type",
       "Authorization",

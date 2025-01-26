@@ -20,7 +20,10 @@ app.use(
   cors({
     methods: ["GET", "POST", "DELETE", "PUT", "DELETE"],
     credentials: true,
-    origin: "https://new-twitter-client-tau.vercel.app",
+    origin: [
+      "https://new-twitter-client-tau.vercel.app",
+      "https://tweetx.shivn.tech/",
+    ],
   })
 );
 app.use(

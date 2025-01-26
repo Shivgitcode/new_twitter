@@ -22,7 +22,7 @@ app.use(
     credentials: true,
     origin: [
       "https://new-twitter-client-tau.vercel.app",
-      "https://tweetx.shivn.tech/",
+      "https://tweetx.shivn.tech",
     ],
   })
 );

@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import expressFileupload from "express-fileupload";
-import { router as userRouter } from "./routes/user";
+import { router as userRouter } from "./routes/user.js";
 import { cloudinaryConfig } from "./cloudinary/config";
 import cookieParser from "cookie-parser";
 import { postRoutes } from "./routes/post";

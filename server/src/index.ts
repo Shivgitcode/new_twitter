@@ -24,6 +24,13 @@ app.use(
       "https://new-twitter-client-tau.vercel.app",
       "https://tweetx.shivn.tech",
     ],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept",
+      "Origin",
+    ],
   })
 );
 app.use(

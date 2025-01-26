@@ -6,17 +6,13 @@
   "builds": [
     {
       "src": "src/bin.ts",
-      "use": "@vercel/node",
-      "config": {
-        "distDir": "dist",
-        "includeFiles": ["node_modules/.bin/tsc"]
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/index.ts"
+      "dest": "src/bin.ts"
     }
   ]
 }
